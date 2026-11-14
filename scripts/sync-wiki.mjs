@@ -48,6 +48,7 @@ const RT_MOCKUPS = {
 	'images/settings-ai.png': (await import('../mockups/settings-ai.mjs')).renderSettingsAiMockup,
 	'images/settings-inquiry.png': (await import('../mockups/settings-inquiry.mjs')).renderSettingsInquiryMockup,
 	'images/timetable-outline.webp': (await import('../mockups/timetable-outline.mjs')).renderTimetableOutlineMockup,
+	'images/panel-book-designer.png': (await import('../mockups/book-designer.mjs')).renderBookDesignerMockup,
 };
 
 // One entry per product. WIKI_DIR / PLUGIN_DIR (and ED_WIKI_DIR / ED_PLUGIN_DIR) override where

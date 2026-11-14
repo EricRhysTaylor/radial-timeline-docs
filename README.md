@@ -8,7 +8,8 @@ The wiki stays the only source. Pages are written in the plugin repo's `wiki/` f
 
 `.github/workflows/deploy.yml` builds the site and deploys it to GitHub Pages. The workflow:
 
-- runs on a push to `main`, or by hand after a wiki publish:
+- runs on a push to `main`, and after every wiki publish: the plugin's `npm run publish-wiki` (also run by its backup step) starts it with `gh`;
+- can be started by hand:
   ```bash
   gh workflow run deploy.yml -R EricRhysTaylor/radial-timeline-docs
   ```

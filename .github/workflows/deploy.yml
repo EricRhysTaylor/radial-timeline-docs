@@ -1,8 +1,8 @@
 # Builds docs.radialtimeline.com from the published GitHub wiki and deploys it to GitHub Pages.
 # The pages come from the live wiki repo, so the site shows exactly what the wiki shows; the plugin
 # repo supplies the version label (manifest.json) and the Welcome mockup's photo.
-# Runs on a push here, or by hand after a wiki publish:
-#   gh workflow run deploy.yml -R EricRhysTaylor/radial-timeline-docs
+# Runs on a push here, and after each wiki publish: the plugin's scripts/publish-wiki.mjs starts it
+# with `gh workflow run deploy.yml -R EricRhysTaylor/radial-timeline-docs` (also usable by hand).
 name: Deploy docs
 
 on:

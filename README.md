@@ -1,20 +1,22 @@
 # Radial Timeline Docs
 
-The styled docs site for [Radial Timeline](https://github.com/EricRhysTaylor/radial-timeline), the manuscript timeline for Obsidian, at **https://docs.radialtimeline.com**. Built with Astro Starlight from the same Markdown as the [GitHub wiki](https://github.com/EricRhysTaylor/radial-timeline/wiki).
+The styled docs site for [Radial Timeline](https://github.com/EricRhysTaylor/radial-timeline), the manuscript timeline for Obsidian, and its companion plugin [Editorialist](https://github.com/EricRhysTaylor/editorialist), at **https://docs.radialtimeline.com**. Built with Astro Starlight from the same Markdown as each plugin's GitHub wiki.
 
-The wiki stays the only source. Pages are written in the plugin repo's `wiki/` folder and published to the GitHub wiki; this repo only reads them.
+- **Radial Timeline** is at the site root (`/Timetable/`); **Editorialist** is under `/editorialist/` (`/editorialist/Line-Edits/`).
+- A product switch at the top of the sidebar ([starlight-sidebar-topics](https://github.com/HiDeoo/starlight-sidebar-topics)) shows each product's own navigation. Search covers both.
+- Each wiki stays the only source. Pages are written in each plugin repo's `wiki/` folder and published to its GitHub wiki; this repo only reads them. A link to the other product's GitHub wiki becomes a link inside the site.
 
 ## Deploys
 
 `.github/workflows/deploy.yml` builds the site and deploys it to GitHub Pages. The workflow:
 
-- runs on a push to `main`, and after every wiki publish: the plugin's `npm run publish-wiki` (also run by its backup step) starts it with `gh`;
+- runs on a push to `main`, and after every wiki publish: each plugin's `npm run publish-wiki` starts it with `gh`;
 - can be started by hand:
   ```bash
   gh workflow run deploy.yml -R EricRhysTaylor/radial-timeline-docs
   ```
-- reads the pages from the **published** wiki (`radial-timeline.wiki`), so the site shows exactly what the wiki shows;
-- takes the version label and the Welcome photo from the plugin repo.
+- reads the pages from the **published** wikis (`radial-timeline.wiki`, `editorialist.wiki`), so the site shows exactly what they show;
+- takes each version label (and Radial Timeline's Welcome photo) from that plugin's latest release.
 
 ## Run it locally
 
@@ -28,7 +30,7 @@ npm run preview
 
 `npm run dev` serves with live reload, but search only works in a build.
 
-- **Source:** a local build reads `../radial-timeline/wiki/` beside this folder, or `WIKI_DIR` (and `PLUGIN_DIR`) if set.
+- **Source:** a local build reads `../radial-timeline/wiki/` and `../editorialist/wiki/` beside this folder, or `WIKI_DIR` / `PLUGIN_DIR` and `ED_WIKI_DIR` / `ED_PLUGIN_DIR` if set.
 - **Banner:** it shows a preview banner, because the plugin's `wiki/` folder can be ahead of the published wiki.
 
 ## Looks and fonts

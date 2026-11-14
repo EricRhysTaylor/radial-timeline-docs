@@ -2,7 +2,9 @@
 import { existsSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import sidebar from './src/generated/sidebar.json' with { type: 'json' };
+import starlightSidebarTopics from 'starlight-sidebar-topics';
+// One topic per product (Radial Timeline, Editorialist), each with its wiki's sidebar.
+import topics from './src/generated/sidebar.json' with { type: 'json' };
 
 // Two looks from one codebase. `paper` (the default) matches radialtimeline.com and the newsletter:
 // paper, Satoshi, Geist Mono, serif headings. `note` is the earlier Timetable-design-note look:
@@ -64,7 +66,7 @@ export default defineConfig({
 				? [{ tag: 'link', attrs: { rel: 'stylesheet', href: 'https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap' } }, ...kaliceRemoteHead]
 				: [],
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/EricRhysTaylor/radial-timeline' }],
-			sidebar,
+			plugins: [starlightSidebarTopics(topics)],
 			customCss: [
 				'@fontsource/ibm-plex-sans/400.css',
 				'@fontsource/ibm-plex-sans/400-italic.css',

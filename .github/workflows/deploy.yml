@@ -1,7 +1,8 @@
-# Builds docs.radialtimeline.com from the published GitHub wiki and deploys it to GitHub Pages.
-# The pages come from the live wiki repo, so the site shows exactly what the wiki shows; the plugin
-# repo supplies the version label (manifest.json) and the Welcome mockup's photo.
-# Runs on a push here, and after each wiki publish: the plugin's scripts/publish-wiki.mjs starts it
+# Builds docs.radialtimeline.com from the published GitHub wikis of Radial Timeline (site root) and
+# Editorialist (/editorialist/) and deploys it to GitHub Pages. The pages come from the live wiki
+# repos, so the site shows exactly what the wikis show. Each plugin repo is checked out at its latest
+# release, for the version label and the Welcome mockup's photo.
+# Runs on a push here, and after each wiki publish: each plugin's scripts/publish-wiki.mjs starts it
 # with `gh workflow run deploy.yml -R EricRhysTaylor/radial-timeline-docs` (also usable by hand).
 name: Deploy docs
 
@@ -25,21 +26,47 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Check out the published wiki
+      - name: Find each plugin's latest release
+        id: releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "rt=$(gh api repos/EricRhysTaylor/radial-timeline/releases/latest --jq .tag_name)" >> "$GITHUB_OUTPUT"
+          echo "ed=$(gh api repos/EricRhysTaylor/editorialist/releases/latest --jq .tag_name)" >> "$GITHUB_OUTPUT"
+
+      - name: Check out Radial Timeline's published wiki
         uses: actions/checkout@v7
         with:
           repository: EricRhysTaylor/radial-timeline.wiki
           path: .sources/wiki
           fetch-depth: 0 # each page's last-updated date comes from its history
 
-      - name: Check out the plugin's manifest and Welcome photo
+      - name: Check out Radial Timeline's release (manifest and Welcome photo)
         uses: actions/checkout@v7
         with:
           repository: EricRhysTaylor/radial-timeline
+          ref: ${{ steps.releases.outputs.rt }}
           path: .sources/plugin
           sparse-checkout: |
             manifest.json
             src/branding
+          sparse-checkout-cone-mode: false
+
+      - name: Check out Editorialist's published wiki
+        uses: actions/checkout@v7
+        with:
+          repository: EricRhysTaylor/editorialist.wiki
+          path: .sources/ed-wiki
+          fetch-depth: 0
+
+      - name: Check out Editorialist's release (manifest)
+        uses: actions/checkout@v7
+        with:
+          repository: EricRhysTaylor/editorialist
+          ref: ${{ steps.releases.outputs.ed }}
+          path: .sources/ed-plugin
+          sparse-checkout: |
+            manifest.json
           sparse-checkout-cone-mode: false
 
       - uses: actions/setup-node@v7
@@ -56,6 +83,8 @@ jobs:
         env:
           WIKI_DIR: .sources/wiki
           PLUGIN_DIR: .sources/plugin
+          ED_WIKI_DIR: .sources/ed-wiki
+          ED_PLUGIN_DIR: .sources/ed-plugin
 
       - uses: actions/upload-pages-artifact@v5
         with:

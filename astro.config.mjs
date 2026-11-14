@@ -81,6 +81,8 @@ export default defineConfig({
 				...themeCss,
 			],
 			components: { PageTitle: './src/components/PageTitle.astro', Footer: './src/components/Footer.astro' },
+			// Wiki code blocks are mostly YAML and notes: wrap long lines instead of scrolling them.
+			expressiveCode: { defaultProps: { wrap: true } },
 			tableOfContents: false,
 			credits: false,
 		}),

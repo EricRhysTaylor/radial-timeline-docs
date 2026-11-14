@@ -72,9 +72,11 @@ const PRODUCTS = [
 		pluginDir: process.env.ED_PLUGIN_DIR,
 		wikiUrl: 'https://github.com/EricRhysTaylor/editorialist/wiki',
 		titles: { Home: 'Editorialist' },
-		prototype: ['Home', 'Getting-Started'],
+		prototype: ['Home', 'Getting-Started', 'Line-Edits'],
 		openGroups: null, // every group open: the sidebar is short
-		mockups: {},
+		mockups: {
+			'images/ui-toolbar-closeup-rounded.png': (await import('../mockups/ed-toolbar.mjs')).renderEdToolbarMockup,
+		},
 		hidden: [],
 	},
 ].filter((product) => {

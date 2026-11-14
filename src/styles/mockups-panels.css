@@ -3,7 +3,7 @@
    Built on the Obsidian-like tokens in mockups.css; the few extra ones are below.
    Sizes and colours follow the plugin's own CSS on main (timeline.css, rt-ui.css). */
 
-.rt-palette, .rt-titlebar, .rt-settings {
+.rt-palette, .rt-titlebar, .rt-settings, .rt-ed-toolbar {
 	--m-hover: rgb(255 255 255 / 0.06);
 	--m-select: rgb(255 255 255 / 0.08);
 	--m-input: #2a2a2f;
@@ -16,7 +16,7 @@
 	--m-tip-bg: rgb(12 12 14 / 0.94);
 	--m-mono: var(--sl-font-mono);
 }
-:root[data-theme='light'] :is(.rt-palette, .rt-titlebar, .rt-settings) {
+:root[data-theme='light'] :is(.rt-palette, .rt-titlebar, .rt-settings, .rt-ed-toolbar) {
 	--m-hover: rgb(0 0 0 / 0.045);
 	--m-select: rgb(0 0 0 / 0.06);
 	--m-input: #ffffff;
@@ -26,8 +26,8 @@
 }
 
 /* Obsidian-style tooltips on hover, from each control's data-tip (its aria-label). */
-:is(.rt-titlebar, .rt-settings) [data-tip] { position: relative; }
-:is(.rt-titlebar, .rt-settings) [data-tip]:hover::after {
+:is(.rt-titlebar, .rt-settings, .rt-ed-toolbar) [data-tip] { position: relative; }
+:is(.rt-titlebar, .rt-settings, .rt-ed-toolbar) [data-tip]:hover::after {
 	content: attr(data-tip);
 	position: absolute;
 	top: calc(100% + 8px);
@@ -565,3 +565,68 @@
 	.rt-settings .st-book .controls { grid-column: 2 / span 2; grid-row: 2; justify-content: flex-start; }
 	.rt-settings .st-book .folder { grid-row: 3; }
 }
+
+
+/* ── Editorialist: the inline suggestion toolbar ──
+   From Editorialist's styles.css (.editorialist-toolbar): a mono meta row with the operation
+   badge, then square icon buttons; Apply carries a green edge. The ✱ opens the legend popover. */
+.rt-ed-toolbar .pane { overflow: visible; }
+.rt-ed-toolbar .et-stage { padding: 16px 16px 44px; background: var(--m-bg); border-radius: 8px; }
+.rt-ed-toolbar .et {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 9px;
+	padding: 7px 9px;
+	border: 1px solid color-mix(in srgb, var(--m-border) 80%, transparent);
+	border-radius: 10px;
+	background: var(--m-head);
+	font: 600 12px/1 var(--m-mono);
+	color: var(--m-muted);
+}
+.rt-ed-toolbar svg.lucide { width: 16px; height: 16px; vertical-align: 0; }
+.rt-ed-toolbar .et-lead, .rt-ed-toolbar .et-meta, .rt-ed-toolbar .et-actions { display: flex; align-items: center; }
+.rt-ed-toolbar .et-lead { gap: 4px; }
+.rt-ed-toolbar .et-meta { gap: 6px; flex: 1; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
+.rt-ed-toolbar .et-actions { gap: 5px; }
+.rt-ed-toolbar .et-actions > :nth-last-child(-n+2)[data-tip]:hover::after { left: auto; right: 0; transform: none; }
+.rt-ed-toolbar .et-close, .rt-ed-toolbar .et-legend { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; cursor: pointer; }
+.rt-ed-toolbar .et-close:hover { background: var(--m-hover); color: var(--m-text); }
+.rt-ed-toolbar .et-op { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: color-mix(in srgb, var(--m-accent) 16%, transparent); color: var(--m-link); font-weight: 700; }
+.rt-ed-toolbar .et-op svg.lucide { width: 14px; height: 14px; }
+.rt-ed-toolbar .et-sep { color: color-mix(in srgb, var(--m-muted) 72%, transparent); }
+.rt-ed-toolbar .et-btn { display: inline-grid; place-items: center; width: 34px; height: 30px; border-radius: 7px; border: 1px solid transparent; background: color-mix(in srgb, var(--m-text) 7%, transparent); color: var(--m-text); cursor: pointer; }
+.rt-ed-toolbar .et-btn:hover { background: var(--m-hover); border-color: var(--m-border); }
+.rt-ed-toolbar .et-btn.is-apply { border-color: color-mix(in srgb, var(--m-green) 55%, transparent); background: color-mix(in srgb, var(--m-green) 10%, transparent); }
+.rt-ed-toolbar .et-btn.is-apply:hover { background: color-mix(in srgb, var(--m-green) 20%, transparent); }
+/* The legend popover, shown on hover or focus of the ✱ */
+.rt-ed-toolbar .et-legend { position: relative; color: var(--m-muted); outline: none; }
+.rt-ed-toolbar .et-legend:is(:hover, :focus-visible) { color: var(--m-text); background: var(--m-hover); }
+.rt-ed-toolbar .et-pop {
+	position: absolute;
+	left: -6px;
+	bottom: calc(100% + 8px);
+	z-index: 5;
+	display: none;
+	grid-template-columns: auto auto 1fr;
+	gap: 6px 10px;
+	width: max-content;
+	padding: 10px 12px;
+	border: 1px solid var(--m-border);
+	border-radius: 8px;
+	background: var(--m-bg);
+	box-shadow: var(--m-shadow);
+	font: 400 12px/1.3 var(--ui);
+	color: var(--m-text);
+	text-transform: none;
+	letter-spacing: 0;
+	cursor: default;
+}
+.rt-ed-toolbar .et-legend:is(:hover, :focus-visible) .et-pop { display: grid; }
+.rt-ed-toolbar .lg-title { grid-column: 1 / -1; font: 600 11px/1 var(--m-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--m-muted); }
+.rt-ed-toolbar .lg-row { display: contents; }
+.rt-ed-toolbar .lg-ic { display: inline-grid; place-items: center; color: var(--m-muted); }
+.rt-ed-toolbar .lg-ic svg.lucide { width: 14px; height: 14px; }
+.rt-ed-toolbar .lg-keys { font: 600 11px/1.3 var(--m-mono); color: var(--m-muted); white-space: nowrap; }

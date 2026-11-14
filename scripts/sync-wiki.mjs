@@ -13,7 +13,7 @@
 // - inline `style` attributes are dropped, as GitHub drops them; the site CSS styles
 //   the same HTML instead
 // - GitHub alerts (`> [!NOTE]`) become Starlight asides
-// - a screenshot listed in MOCKUPS is replaced by a live HTML mockup
+// - a screenshot listed in MOCKUPS is replaced by a live HTML mockup; one in SITE_HIDDEN is left out
 // - every page link, anchor and sidebar link is checked against the wiki's headings
 
 import fs from 'node:fs';
@@ -49,6 +49,9 @@ const MOCKUPS = {
 	'images/ui-tab-bar-actions.png': (await import('../mockups/titlebar.mjs')).renderTabBarMockup,
 	'images/settings-core.png': (await import('../mockups/settings.mjs')).renderSettingsCoreMockup,
 };
+// Screenshots the site leaves out because a live mockup on the same page already shows them.
+// The GitHub wiki keeps them: there they are the only picture of those controls.
+const SITE_HIDDEN = ['images/timetable-row-panel.webp', 'images/homepage-timetable-full.webp'];
 const ALERTS = { NOTE: 'note', TIP: 'tip', IMPORTANT: 'note', WARNING: 'caution', CAUTION: 'danger' };
 
 const pageNames = fs.readdirSync(WIKI_DIR)
@@ -144,6 +147,10 @@ function swapMockups(md) {
 		const alt = block.match(/!\[([^\]]*)\]/)?.[1] ?? block.match(/alt="([^"]*)"/)?.[1] ?? '';
 		const caption = (block.match(/<img[^>]*>\s*<div>([^<]+)<\/div>/) ?? block.match(/<sub>([^<]+)<\/sub>/))?.[1]?.trim();
 		blocks[i] = render({ alt, caption, pluginDir: PLUGIN_DIR, imagesOut: IMAGES_OUT });
+	}
+	for (const image of SITE_HIDDEN) {
+		const i = blocks.findIndex((b) => b.includes(`](${image})`) || b.includes(`src="${image}"`));
+		if (i >= 0) blocks[i] = '';
 	}
 	return blocks.join('');
 }

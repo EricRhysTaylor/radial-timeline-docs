@@ -1,5 +1,6 @@
-/* Live mockups of three panels: the command palette (mockups/commands.mjs), the timeline
-   title bar (mockups/titlebar.mjs) and Settings → Core (mockups/settings.mjs).
+/* Live mockups of the panels: the command palette (mockups/commands.mjs), the timeline
+   title bar (mockups/titlebar.mjs), the Settings tabs (mockups/settings.mjs for the frame and
+   Core, settings-*.mjs for Advanced, AI, Inquiry and Resources) and Editorialist's toolbar.
    Built on the Obsidian-like tokens in mockups.css; the few extra ones are below.
    Sizes and colours follow the plugin's own CSS on main (timeline.css, rt-ui.css). */
 
@@ -13,6 +14,9 @@
 	--m-runtime: rgb(60 140 220);
 	--m-alt: rgb(180 60 60);
 	--m-gold: #f2c94c;
+	/* The plugin's Pro accent and Pro pill gradient (rt-ui.css --ert-pro-*). */
+	--m-pro: #d946ef;
+	--m-pro-gradient: linear-gradient(135deg, #9333ea, #6366f1);
 	--m-tip-bg: rgb(12 12 14 / 0.94);
 	--m-mono: var(--sl-font-mono);
 }
@@ -540,6 +544,180 @@
 .rt-settings .st-toggle.is-on { background: var(--m-accent); }
 .rt-settings .st-toggle.is-on i { left: 18px; }
 
+/* A tab shown whole (Advanced, Resources): no height cap, no fade. */
+.rt-settings .st.is-full { max-height: none; }
+.rt-settings .st.is-full .st-main { -webkit-mask-image: none; mask-image: none; }
+
+/* The hero's helper line (.ert-field-note). */
+.rt-settings .st-note { margin: -4px 0 4px; color: var(--m-faint); font-size: 12.5px; line-height: 1.45; }
+/* A section heading's docs link, beside its title. */
+.rt-settings .st-heading .name .wiki { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: var(--m-muted); cursor: pointer; }
+.rt-settings .st-heading .name .wiki svg { width: 12px; height: 12px; }
+.rt-settings .st-heading .name .wiki:hover { background: var(--m-hover); color: var(--m-text); }
+
+/* Advanced: Configuration's groups (.ert-config-group) of Obsidian setting rows. */
+.rt-settings .st-group-title { margin: 0 0 -10px 16px; color: var(--m-muted); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+.rt-settings .st-rows { display: flex; flex-direction: column; }
+.rt-settings .st-setting { align-items: flex-start; padding: 14px 16px; }
+.rt-settings .st-rows .st-setting + .st-setting { border-top: 1px solid var(--m-border); }
+.rt-settings .st-panel .st-setting { padding: 2px 0; }
+.rt-settings .st-setting .ctl { align-items: center; padding-top: 1px; }
+.rt-settings .st-setting .name { display: flex; align-items: center; gap: 6px; }
+.rt-settings .st-setting .ri { display: flex; color: var(--m-muted); }
+.rt-settings .st-setting .ri svg { width: 16px; height: 16px; }
+.rt-settings .st-select {
+	display: inline-flex;
+	align-items: center;
+	gap: 18px;
+	height: 28px;
+	padding: 0 6px 0 10px;
+	box-sizing: border-box;
+	border-radius: 6px;
+	background: var(--m-input);
+	box-shadow: 0 0 0 1px var(--m-border), 0 1px 2px rgb(0 0 0 / 0.15);
+	font-size: 13px;
+	cursor: pointer;
+}
+.rt-settings .st-select svg { width: 13px; height: 13px; color: var(--m-muted); }
+.rt-settings .st-select:hover { background: var(--m-input-hover); }
+/* Path chips (pathChip.ts): a folder shortcut opposite the row's title. */
+.rt-settings .st-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 8px;
+	border: 1px solid var(--m-border);
+	border-radius: 999px;
+	background: var(--m-hover);
+	color: var(--m-muted);
+	font-size: 11.5px;
+	line-height: 1.4;
+	white-space: nowrap;
+	cursor: pointer;
+}
+.rt-settings .st-chip svg { width: 12px; height: 12px; }
+.rt-settings .st-chip > span { font-family: var(--m-mono); }
+.rt-settings .st-chip b { padding-right: 2px; color: var(--m-text); font-variant-numeric: tabular-nums; }
+.rt-settings .st-chip:hover { border-color: var(--m-accent); color: var(--m-link); }
+.rt-settings .st-chip[data-tip]:hover::after { left: auto; right: 0; transform: none; font-family: var(--m-mono); }
+
+/* Resources: the Story Vault cards (.ert-bonus-*) and the Learn more links. */
+.rt-settings .st-badge.is-pro { border: 0; background: var(--m-pro-gradient); color: #fff; padding-right: 10px; }
+.rt-settings .st-vaults-head { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+.rt-settings .st-section-title { font-size: 15px; font-weight: 700; }
+.rt-settings .st-section-desc { margin: 0; color: var(--m-muted); line-height: 1.5; }
+.rt-settings .st-vaults { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: -8px; }
+.rt-settings .st-vault {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+	padding: 12px;
+	border: 1px solid var(--m-border);
+	border-radius: 14px;
+	background: color-mix(in srgb, var(--m-head) 60%, transparent);
+	transition: border-color 120ms ease;
+}
+.rt-settings .st-vault:not(.is-soon):hover { border-color: color-mix(in srgb, var(--m-accent) 55%, transparent); }
+.rt-settings .st-vault .art { aspect-ratio: 1 / 1; margin-bottom: 4px; overflow: hidden; border-radius: 12px; background: var(--m-bg); }
+.rt-settings .st-vault .art img { display: block; width: 100%; height: 100%; margin: 0; object-fit: cover; }
+.rt-settings .st-vault .title { font-weight: 700; line-height: 1.25; }
+.rt-settings .st-vault.is-soon .title { color: var(--m-muted); }
+.rt-settings .st-vault .meta { color: var(--m-muted); font-size: 11.5px; }
+.rt-settings .st-vault .desc { flex: 1 1 auto; margin-top: 4px; color: var(--m-muted); font-size: 12.5px; line-height: 1.45; }
+.rt-settings .st-vault .action { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; margin-top: auto; padding-top: 8px; }
+.rt-settings .st-vbtn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 5px 12px;
+	border: 1px solid var(--m-border);
+	border-radius: 8px;
+	background: var(--m-input);
+	font-size: 11.5px;
+	font-weight: 600;
+}
+.rt-settings .st-vbtn[aria-disabled] { opacity: 0.6; }
+.rt-settings .st-vbtn.is-primary { flex: 1 1 100%; justify-content: center; border-color: transparent; background: var(--m-accent); color: #fff; cursor: pointer; }
+.rt-settings .st-vbtn.is-primary:hover { background: color-mix(in srgb, var(--m-accent) 86%, #fff); }
+.rt-settings .st-vbtn svg { width: 14px; height: 14px; }
+.rt-settings .st-vlink { color: var(--m-muted); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.rt-settings .st-vlink:hover { color: var(--m-link); }
+.rt-settings .st-card { display: flex; flex-direction: column; gap: 10px; padding: 16px; border: 1px solid var(--m-border); border-radius: 12px; }
+.rt-settings .st-res-links { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.8fr) minmax(0, 1.15fr); gap: 8px; }
+.rt-settings .st-res-link {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	padding: 10px;
+	border: 1px solid var(--m-border);
+	border-radius: 10px;
+	background: color-mix(in srgb, var(--m-head) 60%, transparent);
+	font-size: 12px;
+	cursor: pointer;
+	transition: border-color 120ms ease, background-color 120ms ease;
+}
+.rt-settings .st-res-link:hover { border-color: var(--m-pro); background: var(--m-hover); }
+.rt-settings .st-res-link .ic { display: flex; flex: none; color: var(--m-pro); }
+.rt-settings .st-res-link .ic svg { width: 20px; height: 20px; }
+.rt-settings .st-res-link .lb { min-width: 0; font-weight: 600; }
+.rt-settings .st-res-link .ext { display: flex; flex: none; margin-left: auto; color: var(--m-muted); }
+.rt-settings .st-res-link .ext svg { width: 14px; height: 14px; }
+
+/* Inquiry: the question library row and the zone cards (inquiry.css .ert-inquiry-prompt-*).
+   Zone colours from variables.css; each zone's stroke is its colour mixed 35% with white. */
+.rt-settings .st-setting.is-flush { padding: 0 4px; }
+.rt-settings .st-pillbtn { padding: 4px 12px; border: 1px solid var(--m-border); border-radius: 999px; background: var(--m-head); font-size: 12.5px; white-space: nowrap; cursor: pointer; }
+.rt-settings .st-pillbtn:hover { background: var(--m-hover); }
+.rt-settings .iq-zone { --zs: color-mix(in srgb, var(--z) 35%, #fff); display: flex; flex-direction: column; gap: 10px; }
+:root[data-theme='light'] .rt-settings .iq-zone { --zs: color-mix(in srgb, var(--z) 82%, #000); }
+.rt-settings .iq-zone.is-setup { --z: #2fbf6a; }
+.rt-settings .iq-zone-head { display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; gap: 14px; align-items: start; padding: 4px; }
+.rt-settings .iq-zone-head .tile { display: grid; place-items: center; width: 84px; height: 84px; border-radius: 21px; background: color-mix(in srgb, var(--z) 12%, var(--m-head)); color: var(--zs); }
+.rt-settings .iq-zone-head .tile svg { width: 42px; height: 42px; }
+.rt-settings .iq-zone-head .body { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; }
+.rt-settings .iq-zone-head .pill { padding: 2px 8px; border: 1px solid var(--zs); border-radius: 999px; background: color-mix(in srgb, var(--z) 18%, var(--m-head)); color: var(--zs); font-size: 11px; font-weight: 700; letter-spacing: 0.02em; }
+.rt-settings .iq-zone-head .desc { color: var(--zs); font-size: 12.5px; line-height: 1.45; }
+.rt-settings .iq-list { display: flex; flex-direction: column; gap: 8px; padding: 10px; border: 1px solid var(--m-border); border-left: 2px solid var(--zs); border-radius: 12px; }
+.rt-settings .iq-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; padding: 8px; border: 1px solid var(--m-border); border-radius: 12px; background: color-mix(in srgb, var(--m-head) 34%, transparent); }
+.rt-settings .iq-row.is-add { background: color-mix(in srgb, var(--m-head) 20%, transparent); }
+.rt-settings .iq-row .lead { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 28px; padding-top: 6px; }
+.rt-settings .iq-row .lead b { color: var(--m-muted); font-size: 12px; }
+.rt-settings .iq-row .grip { display: flex; color: var(--m-faint); cursor: grab; }
+.rt-settings .iq-row .grip svg { width: 16px; height: 16px; }
+.rt-settings .iq-row .plus { display: flex; color: var(--m-pro); opacity: 0.35; }
+.rt-settings .iq-row .plus svg { width: 16px; height: 16px; }
+.rt-settings .iq-row .lines { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.rt-settings .iq-row .top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.rt-settings .iq-row .st-input { height: auto; min-height: 30px; padding: 5px 10px; line-height: 1.35; }
+.rt-settings .iq-row .top > .st-input { flex: 0 1 150px; min-width: 110px; }
+.rt-settings .st-input.is-ro { color: var(--m-muted); }
+.rt-settings .st-input.is-ph { color: var(--m-faint); }
+.rt-settings .iq-row .lock { display: inline-flex; align-items: center; gap: 4px; color: var(--m-muted); font-size: 12.5px; }
+.rt-settings .iq-row .lock svg { width: 14px; height: 14px; }
+.rt-settings .st-select.is-wide { flex: 1 1 200px; justify-content: space-between; gap: 8px; min-width: 0; height: 30px; white-space: nowrap; }
+.rt-settings .st-select.is-wide svg { flex: none; }
+.rt-settings .st-select[data-tip]:hover::after { white-space: normal; width: max-content; max-width: 260px; }
+
+/* AI: the hero's switch, AI Strategy's grid and the resolved-model preview. */
+.rt-settings .st-badge-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.rt-settings .st-hero-toggle { display: inline-flex; align-items: center; gap: 8px; color: var(--m-muted); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.rt-settings .st-hero-toggle.is-active { color: var(--m-accent); }
+.rt-settings .ai-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.rt-settings .ai-cell { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 10px; border: 1px solid color-mix(in srgb, var(--m-border) 75%, transparent); border-radius: 10px; background: color-mix(in srgb, var(--m-head) 78%, transparent); }
+.rt-settings .ai-cell .nm { color: var(--m-muted); font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+.rt-settings .ai-cell .ds { color: var(--m-muted); font-size: 11px; line-height: 1.4; }
+.rt-settings .st-select.is-mono { justify-content: space-between; width: 100%; font-family: var(--m-mono); font-size: 12px; }
+.rt-settings .st-select.is-ready { color: var(--m-success); }
+.rt-settings .ai-preview { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 20px 16px; border: 1px dashed var(--m-border); border-radius: 12px; text-align: center; }
+.rt-settings .ai-preview .kicker { color: var(--m-muted); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.rt-settings .ai-preview .model { font-size: clamp(24px, 3.6vw, 34px); font-weight: 800; line-height: 1.15; }
+.rt-settings .ai-preview .prov { color: var(--m-muted); font-size: 13.5px; font-weight: 600; }
+.rt-settings .ai-preview .pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 8px; }
+.rt-settings .ai-pill { padding: 2px 8px; border: 1px solid var(--m-border); border-radius: 999px; background: var(--m-head); color: var(--m-muted); font-size: 11px; font-weight: 700; }
+.rt-settings .ai-pill.is-on { border-color: color-mix(in srgb, var(--m-success) 45%, transparent); background: color-mix(in srgb, var(--m-success) 12%, var(--m-head)); color: var(--m-success); }
+
 
 /* ── Phone width ── */
 @media (max-width: 40rem) {
@@ -564,6 +742,13 @@
 	.rt-settings .st-book { grid-template-rows: auto auto auto; }
 	.rt-settings .st-book .controls { grid-column: 2 / span 2; grid-row: 2; justify-content: flex-start; }
 	.rt-settings .st-book .folder { grid-row: 3; }
+	.rt-settings .st-setting .ctl { align-self: flex-end; }
+	.rt-settings .st-vaults, .rt-settings .st-res-links { grid-template-columns: minmax(0, 1fr); }
+	.rt-settings .st-chip[data-tip]:hover::after { display: none; }
+	.rt-settings .iq-zone-head { grid-template-columns: 56px minmax(0, 1fr) auto; gap: 10px; }
+	.rt-settings .iq-zone-head .tile { width: 56px; height: 56px; border-radius: 16px; }
+	.rt-settings .iq-zone-head .tile svg { width: 28px; height: 28px; }
+	.rt-settings .ai-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
 

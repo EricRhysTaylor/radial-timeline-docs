@@ -43,6 +43,10 @@ const RT_MOCKUPS = {
 	'images/view-rt-mode-buttons.png': (await import('../mockups/titlebar.mjs')).renderModeButtonsMockup,
 	'images/ui-tab-bar-actions.png': (await import('../mockups/titlebar.mjs')).renderTabBarMockup,
 	'images/settings-core.png': (await import('../mockups/settings.mjs')).renderSettingsCoreMockup,
+	'images/settings-advanced.png': (await import('../mockups/settings-advanced.mjs')).renderSettingsAdvancedMockup,
+	'images/settings-resources.webp': (await import('../mockups/settings-resources.mjs')).renderSettingsResourcesMockup,
+	'images/settings-ai.png': (await import('../mockups/settings-ai.mjs')).renderSettingsAiMockup,
+	'images/settings-inquiry.png': (await import('../mockups/settings-inquiry.mjs')).renderSettingsInquiryMockup,
 };
 
 // One entry per product. WIKI_DIR / PLUGIN_DIR (and ED_WIKI_DIR / ED_PLUGIN_DIR) override where

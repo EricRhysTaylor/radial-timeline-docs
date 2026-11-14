@@ -41,7 +41,7 @@ jobs:
           path: .sources/wiki
           fetch-depth: 0 # each page's last-updated date comes from its history
 
-      - name: Check out Radial Timeline's release (manifest and Welcome photo)
+      - name: Check out Radial Timeline's release (manifest, Welcome photo, Story Vault art, model catalog)
         uses: actions/checkout@v7
         with:
           repository: EricRhysTaylor/radial-timeline
@@ -50,6 +50,8 @@ jobs:
           sparse-checkout: |
             manifest.json
             src/branding
+            src/assets/demo-vaults
+            src/ai/registry/builtinModels.ts
           sparse-checkout-cone-mode: false
 
       - name: Check out Editorialist's published wiki

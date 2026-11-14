@@ -1,0 +1,388 @@
+/* Live HTML mockups of the plugin's interface, from the Timetable design note.
+   Mockup palette: Obsidian's own chrome, in both themes. */
+
+.rt-mock {
+	--m-bg: #1e1e21;
+	--m-head: #26262a;
+	--m-border: #35353b;
+	--m-text: #dcdbe0;
+	--m-muted: #8f8e98;
+	--m-faint: #64636c;
+	--m-ring-off: #3a3a41;
+	--m-later: #2c2c31;
+	--m-shadow: 0 6px 24px rgb(0 0 0 / 0.5);
+	--m-accent: #8a6cf0;
+	--m-hover: #2a2733;
+	--m-red: #fb464c;
+	--m-orange: #e9973f;
+	--m-green: #44cf6e;
+	--m-link: #a68af9;
+	--ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+	margin: 1.5rem 0 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+:root[data-theme='light'] .rt-mock {
+	--m-bg: #ffffff;
+	--m-head: #f6f6f7;
+	--m-border: #e4e4e8;
+	--m-text: #222226;
+	--m-muted: #8a8a93;
+	--m-faint: #b6b6bd;
+	--m-ring-off: #e2e2e7;
+	--m-later: #ececf0;
+	--m-shadow: 0 6px 24px rgb(20 18 30 / 0.14);
+	--m-accent: #7a5ad6;
+	--m-hover: #f1eff8;
+	--m-red: #e93147;
+	--m-orange: #d97706;
+	--m-green: #08b94e;
+	--m-link: #7a5ad6;
+}
+
+.rt-mock .pane {
+	border: 1px solid var(--m-border);
+	border-radius: 8px;
+	background: var(--m-bg);
+	overflow: hidden;
+	box-shadow: var(--m-shadow);
+}
+.rt-tt .pane { display: grid; grid-template-columns: 15rem minmax(0, 1fr); }
+/* On a wide screen the Timetable figure widens past the text column, centered on it, so the
+   table shows its columns through Words without scrolling. */
+@media (min-width: 72rem) {
+	.sl-markdown-content .rt-tt {
+		--rt-tt-width: min(70rem, calc(100vw - var(--sl-sidebar-width) - 3rem));
+		width: var(--rt-tt-width);
+		margin-inline: calc((100% - var(--rt-tt-width)) / 2);
+	}
+	.sl-markdown-content .rt-tt .pane { grid-template-columns: 13.5rem minmax(0, 1fr); }
+}
+.rt-mock .side { min-width: 0; display: flex; flex-direction: column; }
+.rt-mock .wheel-side { border-right: 1px solid var(--m-border); }
+.rt-mock .pane-bar {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	height: 32px;
+	padding: 0 10px;
+	border-bottom: 1px solid var(--m-border);
+	background: var(--m-head);
+	font: 12px/1.3 var(--ui);
+	color: var(--m-muted);
+	white-space: nowrap;
+	overflow: hidden;
+}
+.rt-mock .pane-bar .title { color: var(--m-text); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+.rt-mock .pane-bar .spacer { flex: 1; }
+.rt-mock .pane-bar .mode { padding: 2px 6px; border-radius: 4px; background: #7a5ad6; color: #fff; font-size: 11px; font-weight: 500; }
+.rt-mock .pane-scroll { overflow-x: auto; }
+.rt-mock svg.lucide { display: inline-block; width: 1em; height: 1em; flex: none; vertical-align: -0.125em; }
+.rt-mock figcaption { font-size: 0.86rem; line-height: 1.5; color: var(--rt-muted); max-width: 68ch; }
+.rt-mock figcaption b { color: var(--rt-ink); font-weight: 600; }
+/* The note's tag chip above each figure */
+.rt-tag {
+	align-self: flex-start;
+	font: 600 0.7rem/1 var(--sl-font-mono);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 5px 8px;
+	border-radius: 999px;
+	background: var(--rt-accent);
+	color: var(--rt-surface);
+}
+
+
+/* ── Wheel ── */
+.rt-wheel { display: block; width: 100%; height: auto; padding: 10px; }
+.rt-wheel .cell { stroke: var(--m-bg); stroke-width: 1; transition: opacity 120ms, stroke 120ms; }
+.rt-wheel .cell.later { fill: var(--m-later); }
+.rt-wheel .cell[data-s] { cursor: pointer; }
+.rt-wheel .act-line { stroke: var(--m-muted); stroke-width: 1; stroke-dasharray: 2 3; }
+.rt-wheel .act { font: 600 10px var(--ui); letter-spacing: 0.06em; fill: var(--m-muted); }
+.rt-wheel .hub { font: 600 15px var(--ui); fill: var(--m-text); }
+
+/* ── Table ── */
+.rt-mock .tt {
+	border-collapse: collapse;
+	table-layout: fixed;
+	width: 1000px;
+	font: 13px/1.35 var(--ui);
+	color: var(--m-text);
+}
+.rt-mock .tt :is(th, td) {
+	padding: 0 8px;
+	height: 31px;
+	border: 0;
+	border-bottom: 1px solid var(--m-border);
+	background: var(--m-bg);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: start;
+	vertical-align: middle;
+	transition: background 120ms;
+}
+.rt-mock .tt th { font-weight: 500; font-size: 12px; color: var(--m-muted); border-right: 1px solid var(--m-border); }
+.rt-mock .tt .group td { background: var(--m-head); font-weight: 600; height: 30px; }
+.rt-mock .tt .group svg { color: var(--m-muted); margin-right: 4px; }
+.rt-mock .tt .group .cnt { color: var(--m-muted); font-weight: 400; margin-left: 8px; }
+.rt-mock .tt .faint { color: var(--m-faint); font-style: italic; }
+.rt-mock .tt .beat b { font-weight: 600; }
+.rt-mock .tt .beat .sys { color: var(--m-muted); margin: 0 10px; }
+.rt-mock .corner { display: inline-flex; gap: 8px; color: var(--m-muted); font-size: 13px; }
+
+/* The number column: the chip, then the row's control panel (TimetableView renderControls).
+   The stage letter and the checkbox share the first place; the due dot and + / ++ share the last. */
+.rt-mock .ninner { display: flex; align-items: center; gap: 2px; width: max-content; }
+.rt-mock .ninner > * { flex: none; }
+.rt-mock .ninner .chip { margin-inline-end: 2px; }
+.rt-mock .slot, .rt-mock .dslot { display: inline-grid; align-items: center; justify-items: center; min-width: 16px; }
+.rt-mock .dslot { min-width: 28px; }
+.rt-mock .slot > *, .rt-mock .dslot > * { grid-area: 1 / 1; }
+.rt-mock .stage { min-width: 14px; color: var(--st); font: 700 10.5px/1 var(--ui); text-align: center; }
+.rt-mock .cb { display: block; width: 13px; height: 13px; border: 1.5px solid var(--m-muted); border-radius: 3px; visibility: hidden; }
+.rt-mock .tt tr:hover .cb { visibility: visible; }
+.rt-mock .tt tr:hover .slot > :not(.cb) { visibility: hidden; }
+.rt-mock .tc { display: inline-flex; width: 12px; color: var(--m-muted); cursor: help; }
+.rt-mock .tc svg { width: 12px; height: 12px; }
+.rt-mock .tc.is-pending { color: var(--m-link); }
+.rt-mock .tc.is-empty { color: var(--m-faint); opacity: 0.6; }
+.rt-mock .tc:hover { color: var(--m-text); }
+.rt-mock .dot { width: 6px; height: 6px; border-radius: 50%; }
+.rt-mock .dot.late { background: var(--m-red); }
+.rt-mock .dot.soon { background: var(--m-orange); }
+.rt-tt .steps { display: inline-flex; gap: 1px; visibility: hidden; }
+.rt-mock .tt tr:hover .steps { visibility: visible; }
+.rt-mock .tt tr:hover .dot { visibility: hidden; }
+.rt-tt .steps b { padding: 0 2px; border-radius: 3px; color: var(--m-muted); font: 600 10.5px/18px var(--ui); cursor: pointer; }
+.rt-tt .steps b:hover { background: var(--m-hover); color: var(--m-text); }
+
+/* Cells as the tune-up draws them: header icons, the short When, relative Due, the Words bar. */
+.rt-mock .tt th .h { display: inline-flex; align-items: center; gap: 5px; max-width: 100%; overflow: hidden; }
+.rt-mock .tt th .h svg { color: var(--m-faint); font-size: 12px; }
+.rt-mock .tt th .yr { color: var(--m-faint); font-weight: 400; }
+.rt-mock .tt td.name { font-weight: 500; }
+.rt-mock .when { display: inline-flex; align-items: center; }
+.rt-mock .pill { margin-inline-start: 6px; padding: 0 4px; border: 1px solid var(--m-border); border-radius: 8px; color: var(--m-muted); font-size: 11px; }
+.rt-mock .due { display: inline-flex; align-items: center; gap: 3px; }
+.rt-mock .due.is-late { color: var(--m-red); font-weight: 500; }
+.rt-mock .due.is-soon { color: var(--m-orange); font-weight: 500; }
+.rt-mock .due.is-done { color: var(--m-muted); }
+.rt-mock .due svg { width: 12px; height: 12px; color: var(--m-green); }
+.rt-mock .words { display: inline-flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
+.rt-mock .words .bar { position: relative; flex: none; width: 28px; height: 4px; border-radius: 2px; background: var(--m-ring-off); }
+.rt-mock .words .bar b { position: absolute; inset: 0 auto 0 0; border-radius: 2px; background: var(--m-muted); }
+.rt-mock .words .bar.over b { background: var(--m-text); }
+.rt-mock .words .bar::after { content: ''; position: absolute; left: 50%; top: -2px; width: 1px; height: 8px; background: var(--m-text); opacity: 0.5; }
+.rt-mock .mini-btn { width: 18px; height: 18px; display: inline-grid; place-items: center; color: var(--m-muted); font-size: 13px; flex: none; }
+.rt-mock .chip {
+	width: 38px;
+	height: 20px;
+	border-radius: 3px;
+	flex: none;
+	display: inline-grid;
+	place-items: center;
+	font: 600 11px/1 var(--ui);
+	color: #111;
+}
+.rt-mock .chip.c-late { background: #d9605a; }
+.rt-mock .chip.c-author-done { background: #5E85CF; }
+.rt-mock .chip.c-author-working { background: repeating-linear-gradient(45deg, #5E85CF 0 3px, #b3c6ec 3px 6px); }
+.rt-mock .chip.c-house-done { background: #F2863C; }
+.rt-mock .chip.c-zero-todo {
+	background:
+		repeating-linear-gradient(45deg, rgb(158 112 207 / 0.55) 0 2px, transparent 2px 6px),
+		repeating-linear-gradient(-45deg, rgb(158 112 207 / 0.55) 0 2px, transparent 2px 6px),
+		#efe7f8;
+}
+.rt-mock .chip.c-beat { background: #fff; color: #111; box-shadow: inset 0 0 0 1px var(--m-border); }
+.rt-mock .chip.c-sketch { border: 1px dashed var(--m-muted); color: var(--m-muted); background: transparent; }
+
+.rt-mock .rings { display: inline-grid; grid-template-columns: repeat(3, 10px); gap: 2px; vertical-align: middle; }
+.rt-mock .rings i { width: 10px; height: 10px; border-radius: 2px; background: var(--m-ring-off); display: block; }
+.rt-mock .rings i.on { background: var(--r); }
+.rt-mock .rings i.planned { background: transparent; box-shadow: inset 0 0 0 1.5px var(--r); }
+
+/* ── Linked hover: a row and its wheel cells point at each other ──
+   Row hover: solid leading accent and a muted wash in the scene's color.
+   Wheel hover: the same, found from the other side. Other cells recede. */
+.rt-mock .tt tr[data-s] { cursor: pointer; }
+.rt-mock .tt tr[data-s]:hover td { background: color-mix(in srgb, var(--c) 16%, var(--m-bg)); }
+.rt-mock .tt tr[data-s]:hover td:first-child { box-shadow: inset 3px 0 0 var(--c); }
+
+.rt-tt:has([data-s]:hover) .rt-wheel .cell { opacity: 0.35; }
+.rt-tt:has([data-s='1']:hover) .rt-wheel [data-s='1'],
+.rt-tt:has([data-s='2']:hover) .rt-wheel [data-s='2'],
+.rt-tt:has([data-s='3']:hover) .rt-wheel [data-s='3'],
+.rt-tt:has([data-s='4']:hover) .rt-wheel [data-s='4'],
+.rt-tt:has([data-s='5']:hover) .rt-wheel [data-s='5'] {
+	opacity: 1;
+	stroke: var(--m-text);
+	stroke-width: 2;
+}
+.rt-tt:has(.rt-wheel [data-s='1']:hover) tr[data-s='1'] td,
+.rt-tt:has(.rt-wheel [data-s='2']:hover) tr[data-s='2'] td,
+.rt-tt:has(.rt-wheel [data-s='3']:hover) tr[data-s='3'] td,
+.rt-tt:has(.rt-wheel [data-s='4']:hover) tr[data-s='4'] td,
+.rt-tt:has(.rt-wheel [data-s='5']:hover) tr[data-s='5'] td {
+	background: color-mix(in srgb, var(--c) 16%, var(--m-bg));
+}
+.rt-tt:has(.rt-wheel [data-s='1']:hover) tr[data-s='1'] td:first-child,
+.rt-tt:has(.rt-wheel [data-s='2']:hover) tr[data-s='2'] td:first-child,
+.rt-tt:has(.rt-wheel [data-s='3']:hover) tr[data-s='3'] td:first-child,
+.rt-tt:has(.rt-wheel [data-s='4']:hover) tr[data-s='4'] td:first-child,
+.rt-tt:has(.rt-wheel [data-s='5']:hover) tr[data-s='5'] td:first-child {
+	box-shadow: inset 3px 0 0 var(--c);
+}
+
+/* ── Welcome screen ── */
+.rt-welcome .wl {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	padding: 24px 26px 22px;
+	font: 13px/1.5 var(--ui);
+	color: var(--m-muted);
+}
+.rt-welcome .wl p { margin: 0; }
+.rt-welcome .wl a { color: var(--m-link); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.rt-welcome .wl-title {
+	font: 900 104px/0.85 var(--ui);
+	letter-spacing: -5px;
+	text-align: center;
+	color: transparent;
+	background: linear-gradient(180deg, rgb(255 255 255 / 0.25), rgb(255 255 255 / 0.02));
+	-webkit-background-clip: text;
+	background-clip: text;
+}
+:root[data-theme='light'] .rt-welcome .wl-title { background-image: linear-gradient(180deg, rgb(20 18 30 / 0.22), rgb(20 18 30 / 0.02)); }
+.rt-welcome .wl-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 4px 0; }
+.rt-welcome .wl-card {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 16px;
+	border: 1px solid var(--m-border);
+	border-radius: 8px;
+	background: linear-gradient(180deg, color-mix(in srgb, var(--m-head) 94%, white 6%), var(--m-head));
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 10px 26px rgb(0 0 0 / 0.18);
+	cursor: pointer;
+	transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.rt-welcome .wl-card:hover { border-color: var(--m-accent); transform: translateY(-2px); }
+.rt-welcome .wl-card.hero {
+	border-color: color-mix(in srgb, var(--m-accent) 55%, var(--m-border));
+	background: linear-gradient(180deg, color-mix(in srgb, var(--m-accent) 12%, var(--m-head)), color-mix(in srgb, var(--m-accent) 7%, var(--m-head)));
+}
+.rt-welcome .wl-card::after {
+	content: attr(data-n);
+	position: absolute;
+	top: 0;
+	right: 12px;
+	font: 800 72px/1 var(--ui);
+	letter-spacing: -0.04em;
+	color: color-mix(in srgb, var(--m-muted) 18%, transparent);
+	pointer-events: none;
+}
+.rt-welcome .ghost { position: absolute; left: -24px; top: -24px; width: 96px; height: 96px; color: color-mix(in srgb, var(--m-accent) 16%, transparent); }
+.rt-welcome .ghost svg { width: 100%; height: 100%; stroke-width: 4; }
+.rt-welcome .ic { position: relative; z-index: 1; width: 30px; height: 30px; color: var(--m-accent); }
+.rt-welcome .ic svg { width: 100%; height: 100%; stroke-width: 1.6; }
+.rt-welcome .wl-card .t { position: relative; z-index: 1; font-weight: 600; font-size: 14px; color: var(--m-text); }
+.rt-welcome .wl-card .d { position: relative; z-index: 1; font-size: 12px; line-height: 1.45; }
+.rt-welcome .wl-card .sec { font-size: 11.5px; text-decoration: underline; text-underline-offset: 2px; }
+.rt-welcome .wl-card .cta {
+	align-self: stretch;
+	margin-top: auto;
+	padding: 6px 12px;
+	border-radius: 6px;
+	background: var(--m-accent);
+	color: #fff;
+	font-weight: 600;
+	font-size: 12px;
+	text-align: center;
+}
+.rt-welcome .wl-flow {
+	display: flex;
+	gap: 16px;
+	padding: 16px;
+	border: 1px solid color-mix(in srgb, var(--m-border) 70%, transparent);
+	border-radius: 8px;
+	background: color-mix(in srgb, var(--m-head) 50%, transparent);
+}
+.rt-welcome .wl-flow img { flex: none; width: 180px; height: 180px; object-fit: cover; border-radius: 8px; border: 1px solid var(--m-border); }
+.rt-welcome .wl-flow-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.rt-welcome .lead { font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--m-text); }
+.rt-welcome .steps { display: flex; flex-direction: column; gap: 9px; padding: 12px; border: 1px dashed color-mix(in srgb, var(--m-muted) 38%, transparent); border-radius: 8px; }
+.rt-welcome .step { display: flex; gap: 10px; align-items: flex-start; font-size: 12px; line-height: 1.45; }
+.rt-welcome .step svg { flex: none; width: 16px; height: 16px; margin-top: 1px; color: var(--m-accent); }
+.rt-welcome .step code {
+	font: 0.85em var(--sl-font-mono);
+	padding: 0.1em 0.45em;
+	border-radius: 4px;
+	background: color-mix(in srgb, var(--m-muted) 12%, transparent);
+	border: 1px solid color-mix(in srgb, var(--m-muted) 24%, transparent);
+	color: var(--m-text);
+	white-space: nowrap;
+}
+.rt-welcome .wl-foot {
+	font-size: 12px;
+	padding: 10px 12px;
+	border: 1px dashed color-mix(in srgb, var(--m-muted) 38%, transparent);
+	border-radius: 8px;
+	background: color-mix(in srgb, var(--m-head) 58%, transparent);
+}
+.rt-welcome .wl-links { display: grid; grid-template-columns: repeat(2, max-content); justify-content: center; gap: 4px 40px; font-size: 12px; }
+.rt-welcome .wl-links a::before { content: '→ '; color: var(--m-muted); }
+.rt-welcome .wl-backup { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-left: 3px solid var(--m-accent); border-radius: 4px; background: var(--m-head); font-size: 11.5px; }
+.rt-welcome .wl-backup svg { flex: none; width: 18px; height: 18px; color: var(--m-muted); }
+
+@media (max-width: 40rem) {
+	.rt-welcome .wl-title { font-size: 64px; letter-spacing: -3px; }
+	.rt-welcome .wl-cards { grid-template-columns: 1fr; }
+	.rt-welcome .wl-flow { flex-direction: column; }
+	.rt-welcome .wl-links { grid-template-columns: 1fr; }
+	.rt-tt .pane { grid-template-columns: 1fr; }
+	.rt-mock .wheel-side { border-right: 0; border-bottom: 1px solid var(--m-border); }
+	.rt-wheel { max-width: 16rem; margin: 0 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.rt-wheel .cell, .rt-mock .tt :is(th, td), .rt-welcome .wl-card { transition: none; }
+}
+
+/* ── Timetable toolbars (8.0.3) ──
+   The Bases header carries the plugin's "Saved views" caption and help; under it, the Radial
+   Timetable toolbar (renderLayoutSwitch). Drawn as in a wide pane, wrapping in a narrow one. */
+.rt-tt .pane-bar .cap { color: var(--m-muted); }
+.rt-tt .pane-bar .views svg:last-child { color: var(--m-muted); width: 12px; height: 12px; }
+.rt-tt .pane-bar .help { display: inline-flex; color: var(--m-muted); cursor: help; }
+.rt-tt .tt-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 8px;
+	padding: 7px 10px;
+	border-bottom: 1px solid var(--m-border);
+	background: var(--m-bg);
+	font: 12px/1 var(--ui);
+	color: var(--m-text);
+	white-space: nowrap;
+}
+.rt-tt .tt-toolbar > span { display: inline-flex; align-items: center; gap: 6px; }
+.rt-tt .tt-toolbar svg.lucide { width: 14px; height: 14px; vertical-align: 0; }
+.rt-tt .tt-toolbar .cap { color: var(--m-muted); }
+.rt-tt .tt-toolbar :is(.qw, .sw, .book, .modebtn) { padding: 5px 9px; border-radius: 5px; cursor: pointer; }
+.rt-tt .tt-toolbar .qw { border: 1px solid var(--m-accent); color: var(--m-link); background: var(--m-head); font-weight: 600; }
+.rt-tt .tt-toolbar .qw svg:last-child { width: 12px; height: 12px; margin-left: -2px; }
+.rt-tt .tt-toolbar .sw { background: var(--m-head); box-shadow: inset 0 0 0 1px var(--m-border); }
+.rt-tt .tt-toolbar .sw.is-on { background: var(--m-accent); color: #fff; box-shadow: none; }
+.rt-tt .tt-toolbar .canvas { margin-left: 4px; }
+.rt-tt .tt-toolbar :is(.book, .modebtn) { color: var(--m-muted); padding-inline: 6px; gap: 4px; }
+.rt-tt .tt-toolbar .modebtn .cap { margin-right: 2px; }
+.rt-tt .tt-toolbar :is(.book, .modebtn) svg:last-child { width: 12px; height: 12px; }
+.rt-tt .tt-toolbar :is(.qw, .sw:not(.is-on), .book, .modebtn):hover { background: var(--m-hover); color: var(--m-text); }

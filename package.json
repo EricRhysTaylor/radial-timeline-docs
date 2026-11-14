@@ -1,0 +1,24 @@
+{
+  "name": "radial-timeline-docs",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "sync": "node scripts/sync-wiki.mjs",
+    "dev": "npm run sync && ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "npm run sync && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.42.7",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "@fontsource/geist-mono": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "astro": "^7.4.2",
+    "github-slugger": "^2.0.0",
+    "lucide-static": "^1.61.0"
+  }
+}

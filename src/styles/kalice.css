@@ -1,0 +1,21 @@
+/* Kalice headings for the paper look. Only loaded when the licensed web fonts are present in
+   src/fonts/kalice/ (gitignored). Claude Type EULA: serve only from our own domain with hotlink
+   protection, credit "Kalice, Claude Type, designed by Margot Lévêque", Regular and Italic only
+   (never bold it). Without these files the paper look falls back to Newsreader. */
+
+@font-face {
+	font-family: 'Kalice';
+	src: url('../fonts/kalice/Kalice-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'Kalice';
+	src: url('../fonts/kalice/Kalice-Italic.woff2') format('woff2');
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+
+:root { --rt-display: 'Kalice', 'Newsreader Variable', Georgia, serif; }

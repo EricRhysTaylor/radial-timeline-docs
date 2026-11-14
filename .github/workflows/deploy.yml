@@ -1,0 +1,72 @@
+# Builds docs.radialtimeline.com from the published GitHub wiki and deploys it to GitHub Pages.
+# The pages come from the live wiki repo, so the site shows exactly what the wiki shows; the plugin
+# repo supplies the version label (manifest.json) and the Welcome mockup's photo.
+# Runs on a push here, or by hand after a wiki publish:
+#   gh workflow run deploy.yml -R EricRhysTaylor/radial-timeline-docs
+name: Deploy docs
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check out the published wiki
+        uses: actions/checkout@v7
+        with:
+          repository: EricRhysTaylor/radial-timeline.wiki
+          path: .sources/wiki
+          fetch-depth: 0 # each page's last-updated date comes from its history
+
+      - name: Check out the plugin's manifest and Welcome photo
+        uses: actions/checkout@v7
+        with:
+          repository: EricRhysTaylor/radial-timeline
+          path: .sources/plugin
+          sparse-checkout: |
+            manifest.json
+            src/branding
+          sparse-checkout-cone-mode: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Headings load Kalice from fonts.radialtimeline.com, which serves it only to this site.
+      # No font files are part of this build (see astro.config.mjs and font-host/).
+      - name: Build
+        run: npm run build
+        env:
+          WIKI_DIR: .sources/wiki
+          PLUGIN_DIR: .sources/plugin
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

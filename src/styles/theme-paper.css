@@ -1,0 +1,163 @@
+/* The paper look: the Radial Timeline website and newsletter, layered over docs.css.
+   Light: the newsletter's paper (#f2ede3 with its texture), ink #181a19 and #343c37, sage accents.
+   Dark: the website's dark sections (#0b0c0c, warm off-white #f5f1e9).
+   Type: Newsreader for headings (OFL, safe in a public repo), or Kalice when its licensed web fonts
+   sit in src/fonts/kalice/ (see kalice.css); Satoshi for text; Geist Mono for labels.
+   Built with DOCS_THEME=paper. */
+
+:root {
+	--rt-display: 'Newsreader Variable', Georgia, serif;
+	--sl-font: 'Satoshi';
+	--sl-font-mono: 'Geist Mono';
+	--sl-line-height: 1.65;
+	--rt-bar: #0f1010;
+
+	/* dark: the website's dark sections */
+	--rt-bg: #0b0c0c;
+	--rt-surface: #141615;
+	--rt-ink: #f5f1e9;
+	--rt-muted: #9a978f;
+	--rt-line: #2b2d2b;
+	--rt-accent: #9cc2b4;
+	--rt-accent-soft: #1c2624;
+
+	--sl-color-white: #f5f1e9;
+	--sl-color-gray-1: #e8e3d8;
+	--sl-color-gray-2: #d6d1c6;
+	--sl-color-gray-3: var(--rt-muted);
+	--sl-color-gray-4: #6c6a64;
+	--sl-color-gray-5: var(--rt-line);
+	--sl-color-gray-6: var(--rt-surface);
+	--sl-color-black: var(--rt-bg);
+	--sl-color-accent-low: var(--rt-accent-soft);
+	--sl-color-accent: var(--rt-accent);
+	--sl-color-accent-high: #cfe3da;
+	--sl-color-text: #d6d1c6;
+	--sl-color-bg-nav: var(--rt-bar);
+	--sl-color-bg-sidebar: var(--rt-bg);
+	--sl-color-bg-inline-code: var(--rt-accent-soft);
+	--sl-color-hairline-light: var(--rt-line);
+	--sl-color-hairline: var(--rt-line);
+	--sl-color-hairline-shade: var(--rt-line);
+}
+
+:root[data-theme='light'] {
+	--rt-bg: #f2ede3;
+	--rt-surface: #fffdf6;
+	--rt-ink: #181a19;
+	--rt-muted: #6f716a;
+	--rt-line: #d3c8b6;
+	--rt-accent: #3f6460;
+	--rt-accent-soft: #e3e3d5;
+
+	--sl-color-white: var(--rt-ink);
+	--sl-color-gray-1: #262a28;
+	--sl-color-gray-2: #343c37;
+	--sl-color-gray-3: var(--rt-muted);
+	--sl-color-gray-4: #878981;
+	--sl-color-gray-5: var(--rt-line);
+	--sl-color-gray-6: #e7dfd1;
+	--sl-color-gray-7: var(--rt-bg);
+	--sl-color-black: var(--rt-surface);
+	--sl-color-accent-low: var(--rt-accent-soft);
+	--sl-color-accent: var(--rt-accent);
+	--sl-color-accent-high: #2c4a46;
+	--sl-color-text: #343c37;
+	--sl-color-text-accent: var(--rt-accent);
+	--sl-color-bg: var(--rt-bg);
+	--sl-color-bg-nav: var(--rt-bar);
+	--sl-color-bg-sidebar: var(--rt-bg);
+	--sl-color-bg-inline-code: rgb(63 100 96 / 0.08);
+	--sl-color-hairline-light: var(--rt-line);
+	--sl-color-hairline: var(--rt-line);
+	--sl-color-hairline-shade: var(--rt-line);
+}
+
+/* Paper, as on the newsletter. The sidebar carries it too, so the page reads as one sheet. */
+:root[data-theme='light'] body,
+:root[data-theme='light'] .sidebar-pane {
+	background: #f2ede3 url('/textures/paper-texture.jpg') repeat;
+}
+
+/* ── The website's dark top bar, with its deckle edge ── */
+header.header {
+	--sl-color-white: #f5f1e9;
+	--sl-color-gray-1: #e8e3d8;
+	--sl-color-gray-2: #cfcac0;
+	--sl-color-gray-3: #9a978f;
+	--sl-color-gray-5: #2b2d2b;
+	--sl-color-gray-6: #1a1c1b;
+	--sl-color-black: var(--rt-bar);
+	--sl-color-text-accent: #9cc2b4;
+	background: var(--rt-bar);
+	border-bottom: 0;
+}
+:root[data-theme='light'] header.header::after {
+	content: '';
+	position: absolute;
+	inset: 100% 0 auto;
+	height: 7px;
+	background: conic-gradient(from -45deg at 50% 100%, var(--rt-bar) 90deg, transparent 0) 0 0 / 14px 100% repeat-x;
+	pointer-events: none;
+}
+.site-title { font-family: var(--rt-display); font-weight: 400; font-size: 1.3rem; letter-spacing: 0.01em; color: #f5f1e9; }
+
+/* ── Type ── */
+h1#_top {
+	font-family: var(--rt-display);
+	font-weight: 400;
+	font-synthesis: none;
+	font-size: clamp(2.6rem, 6vw, 3.7rem);
+	line-height: 1.02;
+	letter-spacing: -0.015em;
+}
+.rt-eyebrow { font-family: var(--sl-font-mono); letter-spacing: 0.14em; }
+
+.sl-markdown-content { font-size: 1.0625rem; }
+.sl-markdown-content > p:first-child { font-size: 1.2rem; line-height: 1.55; }
+.sl-markdown-content :is(h2, h3) { font-family: var(--rt-display); font-weight: 400; font-synthesis: none; }
+.sl-markdown-content h2 { font-size: 2.15rem; line-height: 1.08; letter-spacing: -0.01em; }
+.sl-markdown-content h3 { font-size: 1.4rem; line-height: 1.2; }
+.sl-markdown-content h2::before {
+	content: counter(rt-section, decimal-leading-zero) ' /';
+	font: 500 0.72rem/1.4 var(--sl-font-mono);
+	letter-spacing: 0.14em;
+	color: var(--rt-muted);
+}
+.sl-markdown-content strong { font-weight: 700; }
+
+/* The contents row as the website's numbered chips */
+.rt-toc { gap: 8px; }
+.rt-toc a {
+	padding: 4px 10px;
+	border: 1px solid var(--rt-line);
+	border-radius: 3px;
+	background: rgb(255 253 246 / 0.5);
+	color: #55675e;
+	font-size: 0.82rem;
+}
+:root:not([data-theme='light']) .rt-toc a { background: var(--rt-surface); color: var(--rt-accent); }
+.rt-toc a:hover { border-color: var(--rt-accent); text-decoration: none; }
+.rt-toc b { font-family: var(--sl-font-mono); }
+
+.sl-markdown-content a:not(.not-content *) { text-underline-offset: 0.2em; }
+.sl-markdown-content code:not(pre code) { border: 1px solid rgb(63 100 96 / 0.15); color: var(--sl-color-accent-high); }
+
+/* Callouts with the newsletter's sage rule */
+.sl-markdown-content blockquote,
+.sl-markdown-content .starlight-aside { border-inline-start: 2px solid #68877b; }
+.sl-markdown-content .starlight-aside__title { color: #55675e; letter-spacing: 0.12em; }
+:root:not([data-theme='light']) .sl-markdown-content .starlight-aside__title { color: var(--rt-accent); }
+
+/* Images and mockups sit on paper: warm shadows, the website's hairline */
+.sl-markdown-content img:not(.not-content *) { border-color: var(--rt-line); box-shadow: 0 8px 24px rgb(60 48 30 / 0.1); }
+.rt-tag { background: var(--rt-accent); color: var(--rt-surface); letter-spacing: 0.1em; }
+:root[data-theme='light'] .rt-mock .pane { box-shadow: 0 10px 30px rgb(60 48 30 / 0.16); }
+
+/* Sidebar and banner in the website's colors */
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover { background: rgb(63 100 96 / 0.1); }
+:root:not([data-theme='light']) .sidebar-content a[aria-current='page'] { background: var(--rt-accent-soft); }
+.sidebar-content .top-level > li > details > summary .group-label .large { letter-spacing: 0.12em; }
+.sl-banner { background: rgb(63 100 96 / 0.1); }
+:root:not([data-theme='light']) .sl-banner { background: var(--rt-accent-soft); }

@@ -1,0 +1,30 @@
+---
+// Starlight's footer, plus the Kalice credit the Claude Type EULA asks for whenever the site carries
+// credits. It only appears in builds that actually set headings in Kalice (see astro.config.mjs).
+import Default from '@astrojs/starlight/components/Footer.astro';
+
+const kalice = import.meta.env.DOCS_KALICE === 'true';
+---
+
+<Default />
+{
+	kalice && (
+		<p class="rt-colophon">
+			Headings set in Kalice, Claude Type, designed by Margot Lévêque.
+		</p>
+	)
+}
+
+<style>
+	@layer starlight.core {
+		.rt-colophon {
+			margin-top: 2.5rem;
+			padding-top: 1rem;
+			border-top: 1px solid var(--sl-color-hairline);
+			font: 500 0.7rem/1.5 var(--sl-font-mono);
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			color: var(--sl-color-gray-3);
+		}
+	}
+</style>

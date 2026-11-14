@@ -1,0 +1,14 @@
+{
+	"name": "rt-font-host",
+	"private": true,
+	"type": "module",
+	"description": "Serves the licensed Kalice web fonts to docs.radialtimeline.com only.",
+	"scripts": {
+		"dev": "node scripts/stage.mjs && wrangler dev",
+		"deploy": "node scripts/deploy.mjs",
+		"clean": "node scripts/stage.mjs --clean"
+	},
+	"devDependencies": {
+		"wrangler": "4.156.2"
+	}
+}

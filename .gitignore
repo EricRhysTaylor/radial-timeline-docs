@@ -1,0 +1,26 @@
+node_modules/
+dist/
+dist-all/
+.astro/
+.DS_Store
+# Written by scripts/sync-wiki.mjs from the plugin's wiki/ folder
+src/content/docs/
+src/generated/
+public/images/
+
+# Licensed Kalice web fonts (Claude Type EULA): never commit to a public repo
+src/fonts/kalice/
+
+# Font host: licensed fonts are staged only during a dev run or deploy
+font-host/.staging/
+font-host/.wrangler/
+
+# CI checks out the wiki and plugin here
+.sources/
+dist-*/
+
+# Private planning and review material: stays on Eric's Mac, never in the public repo or a deploy
+PROPOSAL.md
+WIKI-AUDIT.md
+review/
+public/review/

@@ -1,0 +1,292 @@
+/* The Timetable design note's look, mapped onto Starlight.
+   Note tokens: cool neutral with a violet bias toward Radial Timeline's Zero-stage purple.
+   Starlight puts dark values on :root and light values on [data-theme='light']. */
+
+:root {
+	--rt-display: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
+	--rt-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+	--sl-font: 'IBM Plex Sans';
+	--sl-font-mono: 'IBM Plex Mono';
+	--sl-line-height: 1.65;
+	--sl-content-width: 46rem;
+	--sl-sidebar-width: 17.5rem;
+
+	/* dark */
+	--rt-bg: #141318;
+	--rt-surface: #1d1c22;
+	--rt-ink: #e8e6ee;
+	--rt-muted: #a29fac;
+	--rt-line: #33313b;
+	--rt-accent: #b49df0;
+	--rt-accent-soft: #2a2438;
+
+	--sl-color-white: #f3f1f8;
+	--sl-color-gray-1: var(--rt-ink);
+	--sl-color-gray-2: #cfccd8;
+	--sl-color-gray-3: var(--rt-muted);
+	--sl-color-gray-4: #6f6c79;
+	--sl-color-gray-5: var(--rt-line);
+	--sl-color-gray-6: var(--rt-surface);
+	--sl-color-black: var(--rt-bg);
+	--sl-color-accent-low: var(--rt-accent-soft);
+	--sl-color-accent: var(--rt-accent);
+	--sl-color-accent-high: #d8ccfa;
+	--sl-color-text: var(--rt-ink);
+	--sl-color-bg-nav: var(--rt-bg);
+	--sl-color-bg-sidebar: var(--rt-bg);
+	--sl-color-bg-inline-code: var(--rt-accent-soft);
+	--sl-color-hairline-light: var(--rt-line);
+	--sl-color-hairline: var(--rt-line);
+	--sl-color-hairline-shade: var(--rt-line);
+}
+
+:root[data-theme='light'] {
+	--rt-bg: #f5f5f8;
+	--rt-surface: #ffffff;
+	--rt-ink: #1c1b22;
+	--rt-muted: #64616f;
+	--rt-line: #dddce4;
+	--rt-accent: #5d43a8;
+	--rt-accent-soft: #ece7f8;
+
+	--sl-color-white: var(--rt-ink);
+	--sl-color-gray-1: #2b2933;
+	--sl-color-gray-2: #3d3a47;
+	--sl-color-gray-3: var(--rt-muted);
+	--sl-color-gray-4: #8d8a97;
+	--sl-color-gray-5: var(--rt-line);
+	--sl-color-gray-6: #ecebf1;
+	--sl-color-gray-7: var(--rt-bg);
+	--sl-color-black: var(--rt-surface);
+	--sl-color-accent-low: var(--rt-accent-soft);
+	--sl-color-accent: var(--rt-accent);
+	--sl-color-accent-high: #3f2b80;
+	--sl-color-text: var(--rt-ink);
+	--sl-color-text-accent: var(--rt-accent);
+	--sl-color-bg: var(--rt-bg);
+	--sl-color-bg-nav: var(--rt-bg);
+	--sl-color-bg-sidebar: var(--rt-bg);
+	--sl-color-bg-inline-code: var(--rt-accent-soft);
+	--sl-color-hairline-light: var(--rt-line);
+	--sl-color-hairline: var(--rt-line);
+	--sl-color-hairline-shade: var(--rt-line);
+}
+
+body { background: var(--rt-bg); }
+:focus-visible { outline-color: var(--rt-accent); }
+
+/* ── Header and sidebar ── */
+.site-title { font-family: var(--rt-display); font-size: 1.25rem; font-weight: 600; color: var(--sl-color-white); gap: 0.5rem; }
+.site-title img { height: 1.6rem; width: auto; }
+header.header { border-bottom-color: var(--rt-line); }
+
+.sidebar-content { font-size: 0.92rem; }
+.sidebar-content a { color: var(--sl-color-gray-2); padding-block: 0.25rem; }
+.sidebar-content a:hover { color: var(--rt-accent); }
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover {
+	background: var(--rt-accent-soft);
+	color: var(--rt-accent);
+	font-weight: 600;
+}
+.sidebar-content .top-level > li > details > summary .group-label .large {
+	font: 500 0.72rem/1.4 var(--sl-font-mono);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--rt-muted);
+}
+/* Pages the prototype leaves on the GitHub wiki */
+.sidebar-content a.rt-wiki-link { color: var(--sl-color-gray-3); }
+.sidebar-content a.rt-wiki-link::after { content: '↗'; margin-left: 0.3em; font-size: 0.8em; opacity: 0.6; }
+
+.sl-banner { background: var(--rt-accent-soft); color: var(--rt-ink); font-size: 0.85rem; }
+.sl-banner code { font: 500 0.92em var(--sl-font-mono); }
+
+/* ── Reading column ── */
+.sl-markdown-content { font-size: 1rem; }
+.sl-markdown-content > p:first-child { font-size: 1.12rem; line-height: 1.6; color: var(--sl-color-white); }
+
+.sl-markdown-content :is(h2, h3, h4) { color: var(--sl-color-white); text-wrap: balance; }
+.sl-markdown-content { counter-reset: rt-section; }
+.sl-markdown-content h2 {
+	counter-increment: rt-section;
+	font: 600 1.7rem/1.15 var(--rt-display);
+	letter-spacing: -0.01em;
+}
+.sl-markdown-content h2::before {
+	content: counter(rt-section, decimal-leading-zero);
+	display: block;
+	margin-bottom: 0.4rem;
+	font: 600 0.75rem/1.4 var(--sl-font-mono);
+	letter-spacing: 0.06em;
+	color: var(--rt-accent);
+}
+.sl-markdown-content .sl-heading-wrapper.level-h2 { margin-top: 3.5rem; }
+.sl-markdown-content h3 { font: 600 1.05rem/1.3 var(--sl-font); margin-top: 2rem; }
+.sl-markdown-content h4 { font: 600 0.95rem/1.3 var(--sl-font); }
+
+.sl-markdown-content a:not(.not-content *) { color: var(--rt-accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+.sl-markdown-content strong { color: var(--sl-color-white); font-weight: 600; }
+
+.sl-markdown-content code:not(pre code) {
+	font: 500 0.86em var(--sl-font-mono);
+	background: var(--rt-accent-soft);
+	padding: 0.08em 0.35em;
+	border-radius: 4px;
+	border: 0;
+	overflow-wrap: anywhere;
+}
+
+.sl-markdown-content hr { border: 0; border-top: 1px solid var(--rt-line); margin-block: 2.5rem; }
+
+/* The note's contents row: numbered section links under the opening paragraph */
+.rt-toc { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-block: 1.25rem 2rem; font-size: 0.9rem; }
+.rt-toc a { color: var(--rt-accent); text-decoration: none; }
+.rt-toc a:hover { text-decoration: underline; }
+.rt-toc b { font: 500 0.8rem var(--sl-font-mono); color: var(--rt-muted); margin-right: 5px; }
+
+/* Blockquotes read as the note's “Your call” callouts */
+.sl-markdown-content blockquote {
+	border-inline-start: 3px solid var(--rt-accent);
+	padding: 0.25rem 0 0.25rem 1rem;
+	background: none;
+	color: var(--sl-color-gray-2);
+	font-style: normal;
+}
+.sl-markdown-content blockquote strong:first-child { color: var(--rt-accent); }
+
+/* Tables as in the note: mono header, hairlines, no zebra */
+.sl-markdown-content table:not(.tt) {
+	display: table;
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.93rem;
+}
+.sl-markdown-content table:not(.tt) :is(th, td) {
+	border: 0;
+	border-bottom: 1px solid var(--rt-line);
+	background: none;
+	padding: 0.6rem 0.75rem 0.6rem 0;
+	text-align: start;
+	vertical-align: top;
+}
+.sl-markdown-content table:not(.tt) th {
+	font: 500 0.72rem/1.2 var(--sl-font-mono);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--rt-muted);
+}
+.sl-markdown-content table:not(.tt) td:first-child { white-space: nowrap; }
+
+/* Images and the wiki's own HTML. Inline styles are stripped at sync, as GitHub does,
+   so these rules style the same structure GitHub renders. Mockups opt out (.not-content). */
+.sl-markdown-content img:not(.not-content *) { border-radius: 8px; border: 1px solid var(--rt-line); }
+.sl-markdown-content p[align='center'] { text-align: center; }
+
+/* Video links: a thumbnail card with a play mark and a quiet two-line caption */
+.sl-markdown-content a:not(.not-content *):has(> p > img) {
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+	text-decoration: none;
+	color: var(--rt-muted);
+	font-size: 0.86rem;
+	line-height: 1.45;
+}
+.sl-markdown-content a:has(> p > img) > p { margin: 0; }
+.sl-markdown-content a:has(> p > img) > p:has(> img) { position: relative; }
+.sl-markdown-content a:has(> p > img) img { width: 100%; box-shadow: 0 6px 24px rgb(20 18 30 / 0.14); }
+.sl-markdown-content a:has(> p > img) > p:has(> img)::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 64px;
+	height: 64px;
+	transform: translate(-50%, -50%);
+	border-radius: 50%;
+	background: rgb(20 18 30 / 0.6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8 5.5v13l11-6.5z'/%3E%3C/svg%3E") 55% 50% / 28px no-repeat;
+	transition: background-color 150ms;
+}
+.sl-markdown-content a:has(> p > img):hover > p:has(> img)::after { background-color: var(--rt-accent); }
+.sl-markdown-content a:has(> p > img):hover img { border-color: var(--rt-accent); }
+
+/* The wiki's image grids (Home's Visual Overview): two up, captions with a bold lead */
+.sl-markdown-content div:not(.not-content *):has(> div > img) {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	gap: 1.5rem 1.25rem;
+}
+.sl-markdown-content div:not(.not-content *):has(> img) { display: flex; flex-direction: column; gap: 0.5rem; margin: 0; }
+.sl-markdown-content div:not(.not-content *):has(> img) > div { font-size: 0.86rem; line-height: 1.45; color: var(--rt-muted); }
+.sl-markdown-content div:not(.not-content *):has(> img) > div b { color: var(--sl-color-white); font-weight: 600; }
+
+
+.pagination-links a { border-color: var(--rt-line); }
+.pagination-links a:hover { border-color: var(--rt-accent); }
+
+/* One continuous reading column, as in the note: no rule between the title and the page */
+.content-panel + .content-panel { border-top: 0; }
+.content-panel:has(#_top) { padding-bottom: 0; }
+
+/* Image tables: the GitHub-safe way to put screenshots side by side. On the site they
+   lose the table look and read as a two-up grid with captions under each image. */
+.sl-markdown-content table:not(.tt):has(img) { table-layout: fixed; border-spacing: 0; }
+.sl-markdown-content table:not(.tt):has(img) td {
+	border: 0;
+	padding: 0 0.6rem 1.5rem;
+	white-space: normal;
+	vertical-align: top;
+	font-size: 0.86rem;
+	line-height: 1.45;
+	color: var(--rt-muted);
+}
+.sl-markdown-content table:not(.tt):has(img) td:first-child { padding-left: 0; white-space: normal; }
+.sl-markdown-content table:not(.tt):has(img) td:last-child { padding-right: 0; }
+.sl-markdown-content table:not(.tt):has(img) img { display: block; width: 100%; margin-bottom: 0.5rem; }
+.sl-markdown-content table:not(.tt):has(img) b { color: var(--sl-color-white); font-weight: 600; }
+@media (max-width: 40rem) {
+	.sl-markdown-content table:not(.tt):has(img) :is(tbody, tr, td) { display: block; width: auto; padding-inline: 0; }
+}
+
+/* GitHub-safe media the wiki can use: <p align="center"> with a width attribute,
+   a linked video thumbnail, and a <sub> caption underneath */
+.sl-markdown-content p[align='center'] > img { display: inline-block; max-width: 100%; height: auto; }
+.sl-markdown-content p[align='center'] > a:has(> img) { position: relative; display: inline-block; max-width: 100%; }
+.sl-markdown-content p[align='center'] > a > img { display: block; max-width: 100%; height: auto; box-shadow: 0 6px 24px rgb(20 18 30 / 0.14); }
+.sl-markdown-content p[align='center'] > a:has(> img[src*='i.ytimg.com'])::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 64px;
+	height: 64px;
+	transform: translate(-50%, -50%);
+	border-radius: 50%;
+	background: rgb(20 18 30 / 0.6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8 5.5v13l11-6.5z'/%3E%3C/svg%3E") 55% 50% / 28px no-repeat;
+	transition: background-color 150ms;
+}
+.sl-markdown-content p[align='center'] > a:hover::after { background-color: var(--rt-accent); }
+.sl-markdown-content p[align='center']:has(> sub) { margin-top: 0.5rem; }
+.sl-markdown-content p[align='center'] > sub { font-size: 0.86rem; color: var(--rt-muted); vertical-align: baseline; }
+
+/* Alerts (> [!NOTE] on GitHub) as the note's callouts: an accent rule and a mono label */
+.sl-markdown-content .starlight-aside {
+	background: none;
+	border: 0;
+	border-inline-start: 3px solid var(--rt-accent);
+	border-radius: 0;
+	padding: 0.2rem 0 0.2rem 1rem;
+}
+.sl-markdown-content .starlight-aside__title {
+	font: 600 0.72rem/1.4 var(--sl-font-mono);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--rt-accent);
+}
+.sl-markdown-content .starlight-aside__title svg { display: none; }
+.sl-markdown-content .starlight-aside__content { color: var(--sl-color-gray-2); }
+.sl-markdown-content .starlight-aside--caution { border-color: #b86f0c; }
+.sl-markdown-content .starlight-aside--caution .starlight-aside__title { color: #b86f0c; }
+.sl-markdown-content .starlight-aside--danger { border-color: #c8423a; }
+.sl-markdown-content .starlight-aside--danger .starlight-aside__title { color: #c8423a; }

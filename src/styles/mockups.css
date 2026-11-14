@@ -386,3 +386,61 @@
 .rt-tt .tt-toolbar .modebtn .cap { margin-right: 2px; }
 .rt-tt .tt-toolbar :is(.book, .modebtn) svg:last-child { width: 12px; height: 12px; }
 .rt-tt .tt-toolbar :is(.qw, .sw:not(.is-on), .book, .modebtn):hover { background: var(--m-hover); color: var(--m-text); }
+
+/* ── Timetable Outline (mockups/timetable-outline.mjs) ──
+   From timetable.css: the Outline documents tray (.ert-outline-documents*) and the outline
+   list (.is-outline): act headings, then rows with a grip, ⊕, number, title and Open note. */
+.sl-markdown-content .rt-tt.rt-outline { width: auto; margin-inline: 0; }
+.rt-tt.rt-outline .pane { display: block; font: 13px/1.45 var(--ui); color: var(--m-text); }
+.rt-outline .ic { display: inline-grid; place-items: center; flex: none; width: 26px; height: 26px; border-radius: 4px; color: var(--m-muted); cursor: pointer; }
+.rt-outline .ic svg.lucide { width: 16px; height: 16px; vertical-align: 0; }
+.rt-outline .ic:hover { background: var(--m-hover); color: var(--m-text); }
+.rt-outline .ol-corner { display: flex; gap: 10px; padding: 8px 12px 0; color: var(--m-muted); font-size: 14px; }
+.rt-outline .ol-docs { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; border-bottom: 1px solid var(--m-border); }
+.rt-outline .ol-tray { flex: 1 1 280px; display: flex; align-items: center; gap: 16px; min-width: 0; min-height: 128px; padding: 12px 14px; border: 1px dashed color-mix(in srgb, var(--m-accent) 55%, var(--m-border)); border-radius: 8px; background: var(--m-head); cursor: pointer; }
+.rt-outline .ol-tray:hover { border-color: var(--m-accent); }
+.rt-outline .ol-tray .content { flex: 1 1 auto; min-width: 0; }
+.rt-outline .ol-tray .heading { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.rt-outline .ol-tray .drop { display: inline-flex; color: var(--m-muted); }
+.rt-outline .ol-tray .drop svg.lucide { width: 24px; height: 24px; }
+.rt-outline .ol-tray .hint { color: var(--m-faint); font-size: 12px; }
+.rt-outline .ol-tray .shelf { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.rt-outline .ol-card { position: relative; display: inline-flex; }
+.rt-outline .ol-card .file { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; width: 128px; min-height: 84px; padding: 8px; box-sizing: border-box; border: 1px solid var(--m-border); border-radius: 8px; background: var(--m-bg); cursor: pointer; }
+.rt-outline .ol-card .dic { display: inline-flex; color: var(--m-link); }
+.rt-outline .ol-card .dic svg.lucide { width: 30px; height: 30px; }
+.rt-outline .ol-card .fn { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rt-outline .ol-card .ty { color: var(--m-muted); font-size: 11px; }
+.rt-outline .ol-card :is(.convert, .remove) { position: absolute; top: 2px; opacity: 0; }
+.rt-outline .ol-card .convert { left: 2px; }
+.rt-outline .ol-card .remove { right: 2px; }
+.rt-outline .ol-card:hover :is(.convert, .remove) { opacity: 1; }
+.rt-outline .ol-tray .tools { display: flex; flex: none; flex-direction: column; gap: 4px; }
+.rt-outline .tool { display: inline-grid; place-items: center; width: 36px; height: 36px; box-sizing: border-box; border: 1px solid var(--m-border); border-radius: 5px; background: var(--m-head); color: var(--m-muted); cursor: pointer; }
+.rt-outline .tool svg.lucide { width: 18px; height: 18px; }
+.rt-outline .tool:hover { color: var(--m-text); background: var(--m-hover); }
+.rt-outline .tool.is-on { color: var(--m-link); }
+.rt-outline .position { flex-basis: 100%; color: var(--m-muted); font-size: 12px; }
+.rt-outline .ol-list { padding: 0 12px 12px; }
+.rt-outline .ol-act { display: flex; align-items: center; gap: 4px; margin: 16px 0 8px; padding: 8px 12px; border-bottom: 1px solid var(--m-border); background: var(--m-head); font-size: 22px; font-weight: 600; line-height: 1.25; }
+.rt-outline .ol-act .ic { width: 36px; height: 36px; margin-inline-start: 8px; }
+.rt-outline .ol-act .ic svg.lucide { width: 22px; height: 22px; }
+/* A row: [grip] [⊕ number title] … [Open note], then its synopsis or purpose under the title. */
+.rt-outline .ol-row { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; column-gap: 2px; padding: 12px 0 12px 40px; border-bottom: 1px solid var(--m-border); }
+.rt-outline .ol-row.is-beat { padding-left: 4px; }
+.rt-outline .ol-row .grip { position: absolute; left: 0; top: 50%; display: grid; place-items: center; width: 36px; height: 36px; transform: translateY(-50%); color: var(--m-faint); cursor: grab; }
+.rt-outline .ol-row .grip svg.lucide { width: 18px; height: 18px; }
+.rt-outline .ol-row .head { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.rt-outline .ol-row .head b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; }
+.rt-outline .ol-row .n { color: var(--m-muted); font-variant-numeric: tabular-nums; }
+.rt-outline .ol-row .kind { padding: 1px 6px; border: 1px dashed var(--m-muted); border-radius: 8px; color: var(--m-muted); font-size: 11px; }
+.rt-outline .ol-row .head .ins svg.lucide { width: 18px; height: 18px; }
+.rt-outline .ol-row :is(.text, .drawer) { grid-column: 1 / -1; max-width: 75ch; margin: 6px 0 0; color: var(--m-text); line-height: 1.5; }
+.rt-outline .ol-row .text.is-empty { color: var(--m-faint); font-style: italic; }
+.rt-outline .ol-row .drawer { justify-self: start; padding: 3px 10px; border-radius: 5px; background: var(--m-head); box-shadow: inset 0 0 0 1px var(--m-border); color: var(--m-muted); font-size: 12px; cursor: pointer; }
+.rt-outline .ol-row .drawer:hover { color: var(--m-text); }
+@media (max-width: 40rem) {
+	.rt-outline .ol-tray { flex-wrap: wrap; }
+	.rt-outline .ol-tray .tools { flex-direction: row; }
+	.rt-outline .ol-act { font-size: 18px; }
+}

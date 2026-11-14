@@ -22,7 +22,8 @@ const SUBPLOTS = [
 const STAGE = { zero: '#9E70CF', author: '#5E85CF', house: '#F2863C', late: '#d9605a' };
 // The stage letter's color: the Publish Stage colors.
 const LETTER = { Z: '#9E70CF', A: '#5E85CF', H: '#F2863C', P: '#6FB971' };
-const ROWS = [
+// The invented book, shared with the Outline mockup (timetable-outline.mjs).
+export const ROWS = [
 	{ kind: 'beat', num: '0.01', name: 'Opening Image', system: 'Save the Cat', purpose: 'The keeper alone with the lamp, before anyone arrives.' },
 	{ kind: 'scene', id: 1, num: '1', name: 'The Lighthouse Keeper', chip: 'author-done', stage: 'author', letter: 'A', status: 'Complete · Author', when: 'Fri Apr 6 · 7PM', whenFull: 'Fri Apr 6, 2085 @ 7PM', dur: '2h', durFull: '2 hours', character: 'Mara', place: 'North Light', due: { kind: 'done', text: 'Oct 20', full: 'Tue, Oct 20, 2026' }, words: 2140, rings: [0, 1], synopsis: 'Mara finds the lamp log torn out at the week she arrived.' },
 	{ kind: 'scene', id: 2, num: '2', name: 'Salt Ledger', chip: 'author-working', stage: 'author', letter: 'A', status: 'Working · Author · Due in 3 days', when: 'Sat Apr 7 · 6:30AM', whenFull: 'Sat Apr 7, 2085 @ 6:30AM', dur: '45m', durFull: '45 minutes', character: 'Mara, Ilse', place: 'Harbor Office', due: { kind: 'soon', text: 'in 3 days', full: 'Wed, Oct 28, 2026' }, words: 1650, rings: [0, 2], pending: 'Cut the second ledger argument; Ilse leaves angrier.', synopsis: 'Ilse brings the harbor accounts and asks Mara to sign for oil she never received.' },
@@ -146,20 +147,25 @@ function row(r) {
 const FOLLOW_ICON = '<svg viewBox="0 0 100 100" class="lucide" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="8.333"><circle cx="50" cy="50" r="16.667"/><circle cx="50" cy="50" r="41.667"/></g></svg>';
 
 // Under Obsidian's Bases header: the Radial Timetable toolbar, in renderLayoutSwitch's order.
-function toolbar() {
-	const sw = (ic, label, on) => `<span class="sw${on ? ' is-on' : ''}">${icon(ic)}${label}</span>`;
+export function toolbar({ layout = 'table', mode = 'Progress' } = {}) {
+	const sw = (ic, label) => `<span class="sw${label.toLowerCase() === layout ? ' is-on' : ''}">${icon(ic)}${label}</span>`;
 	return [
 		'<div class="tt-toolbar">',
 		`<span class="qw" title="Quick Workspace: open a reference document beside the table">${icon('panels-left-right')}Quick Workspace${icon('chevron-down')}</span>`,
 		'<span class="cap">Radial Timetable</span>',
-		sw('table-2', 'Table', true),
+		sw('table-2', 'Table'),
 		sw('layout-grid', 'Panels'),
 		sw('list-tree', 'Outline'),
 		`<span class="sw canvas" title="Canvas map: open, choose or create the book’s subplot map">${icon('layout-dashboard')}Canvas map</span>`,
 		`<span class="book" title="Book: Northlight">${icon('book')}${icon('chevron-down')}</span>`,
-		`<span class="modebtn" title="Following the timeline: Progress">${FOLLOW_ICON}<span class="cap">Mode</span>Progress${icon('chevron-down')}</span>`,
+		`<span class="modebtn" title="Following the timeline: ${mode}">${FOLLOW_ICON}<span class="cap">Mode</span>${mode}${icon('chevron-down')}</span>`,
 		'</div>',
 	].join('');
+}
+
+// Obsidian's Bases header, with the plugin's Saved views caption and help.
+export function basesBar(results) {
+	return `<div class="pane-bar"><span class="cap">Saved views</span><span class="title views">${icon('table-2')}Radial Timetable${icon('chevron-down')}</span><span class="help" title="Saved views are native Obsidian. Table, Panels and Outline below are Radial Timetable curated layouts.">${icon('circle-help')}</span><span>${results} results</span><span class="spacer"></span><span>Sort</span><span>Group</span><span>Filter</span><span>Properties</span></div>`;
 }
 
 const head = (iconName, label, extra = '') => `<th><span class="h">${iconName ? icon(iconName) : ''}${label}${extra}</span></th>`;
@@ -176,7 +182,7 @@ export function renderTimetableMockup({ alt }) {
 			wheel(),
 			'</div>',
 			'<div class="side table-side">',
-			`<div class="pane-bar"><span class="cap">Saved views</span><span class="title views">${icon('table-2')}Radial Timetable${icon('chevron-down')}</span><span class="help" title="Saved views are native Obsidian. Table, Panels and Outline below are Radial Timetable curated layouts.">${icon('circle-help')}</span><span>7 results</span><span class="spacer"></span><span>Sort</span><span>Group</span><span>Filter</span><span>Properties</span></div>`,
+			basesBar(7),
 			toolbar(),
 			'<div class="pane-scroll">',
 			'<table class="tt" style="width:1242px"><colgroup><col style="width:124px"><col style="width:54px"><col style="width:162px"><col style="width:176px"><col style="width:96px"><col style="width:100px"><col style="width:84px"><col style="width:90px"><col style="width:360px"></colgroup>',
